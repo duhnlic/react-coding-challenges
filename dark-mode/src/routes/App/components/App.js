@@ -1,9 +1,30 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import '../styles/_app.scss';
 
 function App() {
+
+  const [viewMode, setViewMode] = useState(false);
+
+  const handleChange = () => {
+      setViewMode(!viewMode);
+      if (viewMode) {
+          localStorage.setItem('Theme', 'dark');
+          document.body.classList.add('dark-mode');
+      } else {
+          localStorage.setItem('Theme', 'light');
+          document.body.classList.remove('dark-mode')
+      }
+  }
+
+  useEffect(() => {
+    const currentTheme = localStorage.getItem('Theme');
+    if (currentTheme === 'dark')
+    return document.body.classList.add('dark-mode');
+  })
+
+
   return (
     <div className="app">
       <div className="level">
@@ -12,7 +33,10 @@ function App() {
         </div>
 
         {/* --The button that should toggle dark mode-- */}
-        <button className="app__dark-mode-btn icon level-right">
+        <button 
+        onClick={handleChange}
+        className="app__dark-mode-btn icon level-right"
+        >
           <FontAwesomeIcon icon={faMoon} />
         </button>
 
